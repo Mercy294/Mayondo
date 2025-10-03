@@ -1,0 +1,159 @@
+:root {
+  --bg: #0f0f0f;
+  --ink: #222222;
+  --cream: #fbf7f1;
+  --tan: #ead9c4;
+  --walnut: #6b4f3b;
+  --mahogany: #8a5a3b;
+  --charcoal: #1e1e1e;
+  --gold: #c7a564;
+  --muted: #777;
+  --radius: 18px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color: #2d2a26;
+  line-height: 1.6;
+  background-color: #fbf7f1;
+}
+
+/* Login */
+.login-container {
+  width: 450px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+}
+
+.login-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-box h1 {
+  font: 700 28px Playfair Display, serif;
+  margin: 0 0 10px;
+  color: rgb(80, 40, 12);
+}
+
+.login-box p {
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+
+label {
+  display: block;
+  text-align: left;
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+
+input {
+  height: 45px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font: inherit;
+}
+
+.btn:hover {
+  filter: brightness(0.95);
+  transform: scale(1.03);
+}
+
+.options {
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+/* Fixed stray bracket and misplaced properties */
+.options a {
+  color: var(--walnut);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.options a:hover {
+  color: var(--mahogany);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 10px 0 6px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font: inherit;
+  background: #fff;
+  box-sizing: border-box;
+  margin: 10px auto;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 18px;
+  border-radius: 20px;
+  background: rgb(100, 51, 16);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  width: 150px;
+  height: 40px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.btn:hover {
+  filter: brightness(1.05);
+}
+/* Footer */
+.footer {
+    background-color: black;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 30px;
+    border-top: 1px solid #643310;
+}
+
+.footer .footer-content p {
+    margin: 5px 0;
+}

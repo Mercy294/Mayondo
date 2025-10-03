@@ -1,0 +1,95 @@
+  /* Only keeping necessary custom styles, using Tailwind classes for colors */
+:root {
+
+    --bg: #0f0f0f;
+    --ink: #222222;
+    --cream: #fbf7f1;
+    --tan: #ead9c4;
+    --walnut: #6b4f3b;
+    --mahogany: #ebc6ad;
+    --charcoal: #1e1e1e;
+    --gold: #c7a564;
+    --muted: #777;
+    --radius: 18px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+    --header-height: 4rem;
+    --sidebar-width: 240px;
+}
+
+body {
+    font-family: Poppins, sans-serif;
+    background-color: var(--cream);
+    color: #2b241f;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(80, 40, 12);
+    backdrop-filter: saturate(120%) blur(8px);
+    border-bottom: 1px solid #eee;
+}
+
+        
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+        }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-down {
+    animation: slideDown 0.5s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Footer */
+/* .footer {
+    background-color: black;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 30px;
+    border-top: 1px solid #643310;
+}
+
+.footer .footer-content p {
+    margin: 5px 0;
+} */

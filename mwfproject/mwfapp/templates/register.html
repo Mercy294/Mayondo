@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup — Mayondo Wood & Furniture</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+
+<body>
+              <h1 style="text-align: center; color: #643310;">Welcome to Mayondo Wood and Furniture(MWF)Ltd!</h1>
+
+    <div class="signup-container" style="height: 840px;">
+        <div class="signup-box">
+            <h1>Create an Account</h1>
+            <form action="{% url 'registerPage' %}" method="post" style="padding: -20px;">
+                {% csrf_token %}
+                <label for="name">Full Name</label>
+                <input type="text" id="username" name="username" placeholder="Enter your name" required>
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+                <label for="role">Role</label>
+    <select id="role" name="role" required>
+        <option value="ADMIN">Admin</option>
+        <option value="MANAGER">Manager</option>
+        <option value="SALES_AGENT">Sales Agent</option>
+    </select>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
+
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <p>Already have an account?
+            <div class="dropdown-container">
+                <button class="dropdown-button" aria-haspopup="true" aria-expanded="false">
+                    Login
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 12l-5-5h10l-5 5z" />
+                    </svg>
+                </button>
+                
+                <div class="dropdown-menu">
+                    <a href="/login?role=admin">Admin</a>
+                    <a href="/login?role=manager">Manager</a>
+                    <a href="/login?role=salesagent">SalesAgent</a>
+                </div>
+            </div>
+            </p>
+
+        </div>
+    </div>
+   <!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+    </div>
+</footer>
+</body>
+
+</html>

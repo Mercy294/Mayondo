@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Sale — Mayondo Wood & Furniture</title>
+  <link rel="stylesheet" href="{% static "css/edit.css" %}">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo" style="display: flex; align-items: center;">
+      <img src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}" 
+           alt="Logo" 
+           style="height: 60px; width: 60px; margin-right: 10px; background: #643310;" />
+      Mayondo Wood & Furniture
+    </div>
+    <ul class="navbar">
+      <li><a href="{% url 'dashboardPage' %}">Home</a></li>
+      <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
+      <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
+      <li><a href="/">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Container -->
+  <div style="max-width: 400px; height: 300px; margin: 100px auto 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px;">
+
+    <h1 style="text-align: center; margin-bottom: 20px;">View Sale</h1>
+
+    <!-- Sale Details -->
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; margin-bottom: 5px;"><b>Product:</b> {{ sale.stock_item.name }}</label>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; margin-bottom: 5px;"><b>Quantity Sold:</b> {{ sale.quantity_sold }}</label>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; margin-bottom: 5px;"><b>Customer Name:</b> {{ sale.customer_name }}</label>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; margin-bottom: 5px;"><b>Sale Price:</b> {{ sale.sale_price }}</label>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 5px;"><b>Date:</b> {{ sale.date|date:"F j, Y" }}</label>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="{% url 'editSales' sale.id %}" 
+         style="display: inline-block; margin-right: 10px; padding: 8px 16px; border-radius: 5px; background-color: #1976d2; color: #fff; text-decoration: none;">
+         Edit
+      </a>
+      <a href="{% url 'salesPage' %}" 
+         style="display: inline-block; margin-right: 10px; padding: 8px 16px; border-radius: 5px; background-color: #555; color: #fff; text-decoration: none;">
+         Back
+      </a>
+      <a href="{% url 'deleteSales' sale.id %}" 
+         style="display: inline-block; padding: 8px 16px; border-radius: 5px; background-color: #d32f2f; color: #fff; text-decoration: none;">
+         Delete
+      </a>
+    </div>
+
+  </div>
+   <!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+    </div>
+</footer>
+</body>
+</html>

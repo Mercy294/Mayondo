@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[var(--cream)] min-h-screen">
+
+  <!-- Header -->
+  
+    <!-- Navbar -->
+  <nav class="bg-[#643310] shadow-md">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <div class="flex items-center">
+        <img src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}" alt="Logo" class="h-10 w-10 mr-2">
+        <span class="font-bold text-xl text-white">Mayondo Wood & Furniture</span>
+      </div>
+      
+      <!-- Navigation Links -->
+      <div class="space-x-4">
+        <a href="{% url 'dashboardPage' %}" class="text-white hover:text-[#c7a564]">Dashboard</a>
+        <a href="{% url 'salesPage' %}" class="text-white hover:text-[#c7a564]">Sales</a>
+        <a href="{% url 'stocksPage' %}" class="text-white hover:[#c7a564]">Stocks</a>
+        <a href="{% url 'usersPage' %}" class="text-white hover:text-[#c7a564]">Users</a>
+        <a href="{% url 'logoutPage' %}" class="text-white hover:text-[#c7a564]">Logout</a>
+      </div>
+    </div>
+  </nav>
+    
+  <br>
+<h1 class="text-2xl font-bold">Sales Report</h1>
+  <!-- Page Content -->
+  <main class="max-w-6xl mx-auto p-6">
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="bg-white p-6 rounded-lg shadow text-center">
+        <h3 class="text-lg font-semibold text-gray-600">Today’s Sales</h3>
+        <p class="text-3xl font-bold text-[#643310]">UGX {{ daily_total|default:"0" }}</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow text-center">
+        <h3 class="text-lg font-semibold text-gray-600">This Month</h3>
+        <p class="text-3xl font-bold text-[#643310]">UGX {{ monthly_total|default:"0" }}</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow text-center">
+        <h3 class="text-lg font-semibold text-gray-600">All Sales</h3>
+        <p class="text-3xl font-bold text-[#643310]">{{ all_sales|length }}</p>
+      </div>
+    </div>
+
+    <!-- Sales Table -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-bold mb-4">Detailed Sales</h2>
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-gray-200 text-left">
+            <th class="p-2">Date</th>
+            <th class="p-2">Item</th>
+            <th class="p-2">Quantity</th>
+            <th class="p-2">Amount (UGX)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sale in all_sales %}
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-2">{{ sale.date }}</td>
+            <td class="p-2">{{ sale.stock_item.name }}</td>
+            <td class="p-2">{{ sale.quantity_sold }}</td>
+            <td class="p-2">{{ sale.amount }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" class="p-4 text-center text-gray-500">No sales data available</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white text-center py-4 mt-8">
+    <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+  </footer>
+</body>
+</html>

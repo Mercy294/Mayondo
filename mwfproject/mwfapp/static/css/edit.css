@@ -1,0 +1,122 @@
+body {
+  font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto,"Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background-color: #fbf7f1;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+nav {
+  background: rgb(80, 40, 12);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 1020px;
+}
+
+nav .logo {
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px
+}
+
+nav ul li a:hover {
+  color: #c7a564; 
+}
+
+/* Form container */
+.form-container {
+  max-width: 500px;
+  margin: 120px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+  font-size: 26px;
+  color: #643310;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-row label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-row input,
+.form-row select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  border-color: #643310;
+  outline: none;
+  box-shadow: 0 0 4px rgba(100, 51, 16, 0.4);
+}
+
+/* Buttons */
+.btn {
+  width: 50%;
+  padding: 12px;
+  background: #643310;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+  
+  transform: scale(1.03);
+}
+
+/* Footer */
+.footer {
+    background-color: black;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 30px;
+    border-top: 1px solid #643310;
+}
+
+.footer .footer-content p {
+    margin: 5px 0;
+}

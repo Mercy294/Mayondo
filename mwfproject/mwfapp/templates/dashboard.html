@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- Google Material Icons -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS (your colors + animations) -->
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+
+<body class="min-h-screen overflow-x-hidden">
+    <!-- Overlay for mobile -->
+    <div class="overlay fixed inset-0 bg-indigo-900/50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Header -->
+     <!-- Navbar -->
+  <nav class="bg-[#643310] shadow-md fixed top-0 left-0 w-full z-50">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <div class="flex items-center">
+        <img src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}" alt="Logo" style="height: 60px; width: 60px;" class="mr-2">
+        <span class="font-bold text-xl text-white">Mayondo Wood & Furniture</span>
+      </div>
+  </nav>
+
+    <!-- Sidebar + Main Content -->
+    <div class="pt-24 max-w-7xl mx-auto flex">
+        <!-- Sidebar -->
+        <aside
+            class="sidebar fixed lg:static w-[240px] bg-[rgba(251,247,241,0.85)] h-[calc(100vh-4rem)] lg:h-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-45 overflow-y-auto p-4">
+            
+            <div class="bg-white rounded-xl shadow-lg mb-6 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                
+                <!-- Links visible to Admin & Manager -->
+                {% if user.role == "ADMIN" or user.role == "MANAGER" %}
+                <a href="{% url 'recordStocks' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">inventory</span>
+                    Add Stock
+                </a>
+
+                <a href="{% url 'stocks_report' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">assessment</span>
+                    Stocks Report
+                </a>
+
+                <a href="{% url 'addUser' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">person_add</span>
+                    Add Users
+                </a>
+
+                <a href="{% url 'usersPage' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">groups</span>
+                    Sales Agents
+                </a>
+                {% endif %}
+
+                <!-- Links visible to ALL (Admin, Manager, Sales) -->
+                <a href="{% url 'recordSales' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">point_of_sale</span>
+                    Record Sale
+                </a>
+
+                <a href="{% url 'salesPage' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">bar_chart</span>
+                    Sales
+                </a>
+                
+                <a href="{% url 'sales_report' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">assessment</span>
+                    Sales Report
+                </a>
+                
+
+                <!-- Admin only -->
+                {% if user.role == "ADMIN" %}
+                <a href="/admin/" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">admin_panel_settings</span>
+                    Admin Panel
+                </a>
+                {% endif %}
+
+                <!-- Logout -->
+                <a href="{% url 'logoutPage' %}" class="flex items-center text-gray-600 hover:text-indigo-800 py-4">
+                    <span class="material-icons-outlined mr-2">power_settings_new</span>
+                    Log out
+                </a>
+                
+            </div>
+            
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4 bg-[var(--cream)]">
+            
+            <div class="flex flex-col lg:flex-row gap-4 mb-6">
+                <div class="flex-1 bg-[#fcf2df] border border-[#f3ceaf] rounded-xl p-6 animate-fade-in">
+                    <h2 class="text-4xl font-bold md:text-5xl text-[#643310]">
+                        Welcome <br><strong>{{ user.username }}</strong>
+                    </h2>
+                    <p class="text-lg text-gray-700 mt-2">Role: {{ user.get_role_display }}</p>
+                </div>
+                
+                <!-- Visible only to Admin & Manager -->
+                {% if user.role == "SALES_AGENT" or user.role == "MANAGER" %}
+                
+                <div class="flex-1 bg-[#ffe5c2] border border-[#f3ceaf] rounded-xl p-6 animate-fade-in">
+                    <h2 class="text-4xl md:text-5xl text-[#643310]">Total Sale Items</h2>
+                    <p class="text-5xl font-bold text-[#643310]">{{ total_sales|default:"0" }}</p>
+
+                    <a href="{% url 'salesPage' %}"
+                        class="inline-block mt-6 px-6 py-2 rounded-full text-white font-bold bg-[#643310]">
+                        Review Sales
+                    </a>
+                </div>
+
+               
+                {% endif %}
+                
+            </div>
+            
+
+            <!-- Cards for everyone -->
+             {% if user.role == "ADMIN" or user.role == "MANAGER" %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl border border-[#f3ceaf] shadow-xl p-6 h-50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-slide-up"
+                    style="animation-delay: 0.1s">
+                    <h3 class="text-xl font-bold text-[#643310]">Daily Sales</h3>
+                    <p class="text-3xl mt-2">UGX <span id="daily-sales">{{ daily_total | default:"0" }}</span></p>
+                    <p class="text-gray-600">Including 5% transport fees</p>
+                </div>
+                <!-- Monthly Sales -->
+                <div class="bg-white rounded-xl border border-[#f3ceaf] shadow-lg p-6 h-48 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-slide-up"
+                    style="animation-delay: 0.2s">
+                    <h3 class="text-xl font-bold text-[#643310]">Monthly Sales</h3>
+                    <p class="text-3xl mt-2 text-gray-800">UGX {{ monthly_sales|default:"0" }}</p>
+                    <p class="text-gray-600">Including Transport Fees</p>
+                </div>
+    
+                <!-- Total Stock -->
+                  
+                <div class="bg-white rounded-xl border border-[#f3ceaf] shadow-lg p-6 h-48 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-slide-up"
+                    style="animation-delay: 0.3s">
+                    <h3 class="text-xl font-bold text-[#643310]">Total Stock Items</h3>
+                    <p class="text-3xl mt-2 text-gray-800">{{ total_stock|default:"0" }}</p>
+                    <p class="text-gray-600">Across all categories</p>
+                </div>
+                </div>
+            {% endif %}
+
+                {% if user.role == "SALES_AGENT" %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl border border-[#f3ceaf] shadow-lg p-6 h-48 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-slide-up"
+                    style="animation-delay: 0.3s">
+                    <h3 class="text-xl font-bold text-[#643310]">Total Stock Items</h3>
+                    <p class="text-3xl mt-2 text-gray-800">{{ total_stock|default:"0" }}</p>
+                    <p class="text-gray-600">Across all categories</p>
+                </div>
+                <div class="bg-white rounded-xl border border-[#f3ceaf] shadow-xl p-6 h-50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-slide-up"
+                    style="animation-delay: 0.1s">
+                    <h3 class="text-xl font-bold text-[#643310]">Daily Sales</h3>
+                    <p class="text-3xl mt-2">UGX <span id="daily-sales">{{ daily_total | default:"0" }}</span></p>
+                    <p class="text-gray-600">Including 5% transport fees</p>
+                </div>
+
+              {% endif %}
+            </div>         
+          
+        </main>
+    </div><br><br>
+   <!-- Footer -->
+  <footer class="bg-black text-white text-center py-4 mt-1">
+    <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+  </footer>
+</body>
+</html>

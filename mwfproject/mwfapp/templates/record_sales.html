@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Product — Mayondo Wood & Furniture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{% static 'css/add_sales.css' %}" />
+  </head>
+
+  <body class="flex flex-col min-h-screen">
+      <nav>
+      <div class="logo" style="display: flex; align-items: center">
+        <img
+          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
+          alt="Logo"
+          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0;"
+        />
+        Mayondo Wood & Furniture
+      </div>
+      <ul class="navbar">
+        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
+        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
+        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
+        <li><a href="/">Logout</a></li>
+      </ul>
+    </nav>
+
+    <main class="flex-grow">
+      <div class="form-container">
+        <h1>Record Sales</h1>
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p>Record sales and manage inventory</p>
+
+        <form
+          method="POST"
+          action="{% url 'recordSales' %}"
+          id="addProductForm"
+        >
+          {% csrf_token %}
+          <div class="form-row">
+            <label for="stock_item">Product:</label>
+            <select name="stock_item" id="stock_item" required>
+              <option value="">-- Select a Product --</option>
+              {% for stock in all_stocks %}
+                <option value="{{ stock.id }}">
+                  {{ stock.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="quantity_sold">Quantity:</label>
+            <input
+              type="number"
+              name="quantity_sold"
+              min="0"
+              id="quantity_sold"
+              placeholder="e.g. 10"
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <label for="price">Sale Price (UGX):</label>
+            <input
+              type="number"
+              name="sale_price"
+              id="price"
+              placeholder="e.g. 350000"
+              min="0"
+              required
+            />
+          </div>
+
+            <label><strong>
+              Transport (5%):
+              <input type="checkbox" name="transport" value="yes"></strong>
+              
+            </label>
+
+          <div class="form-row">
+            <label>Total Price:</label>
+            <input type="number" min="0" id="total_price" readonly />
+          </div>
+
+          <div class="form-row">
+            <label for="customer_name">Customer:</label>
+            <input
+              type="text"
+              name="customer_name"
+              id="customer_name"
+              placeholder="e.g. Martha" required
+            />
+          </div>
+
+          <div class="form-row">
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required />
+          </div>
+
+          <div class="form-row">
+            <label for="payment_method">Payment Method:</label>
+            <select id="payment_method" name="payment_method" required>
+              <option value="">Select Method</option>
+              <option value="Cash">Cash</option>
+              <option value="Mobile Money">Mobile Money</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn hover:transition-">Add Product</button>
+        </form>
+      </div>
+    </main>
+      <!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  
+  </body>
+</html>

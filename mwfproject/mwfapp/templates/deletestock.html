@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Stock Record</title>
+    
+    <link rel="stylesheet" href="{% static 'css/edit.css' %}">
+</head>
+
+<body>
+    <nav>
+      <div class="logo" style="display: flex; align-items: center">
+        <img
+          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
+          alt="Logo"
+          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0; font-size: 14px; color: white;"
+        />
+        Mayondo Wood & Furniture
+      </div>
+      <ul class="navbar">
+        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
+        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
+        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
+        <li><a href="/">Logout</a></li>
+      </ul>
+    </nav>
+    <main>
+    <div class="form-container">
+    <div class="flex flex-col gap-2 mx-auto max-w-[500] p-4 shadow-lg">
+        
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete the stocks record for {{ stock.name }} ?</p>
+
+
+
+        <div class="flex gap-2">
+            <form action="{% url 'deleteStocks' stock.id %}" method="post" style="display: flex; gap: 10px; align-items: center;">
+                {% csrf_token %}
+  
+                <button 
+                  style="display: inline-block; padding: 10px 12px; font-size: 15px; border-radius: 5px; background-color: #d32f2f; color: #fff; text-decoration: none; border: none; cursor: pointer;" onmouseover="this.style.backgroundColor='#b71c1c'; this.style.transform='scale(1.05)'; this.style.transition='all 0.2s ease';" onmouseout="this.style.backgroundColor='#d32f2f'; this.style.transform='scale(1)';">
+                  Yes, Delete
+                </button>
+
+                <a href="{% url 'stocksPage' %}" 
+                  style="display: inline-block; margin-right: 10px; padding: 8px 16px; border-radius: 5px; background-color: black; color: #fff; text-decoration: none; text-align:center" onmouseover="this.style.backgroundColor='black'; this.style.transform='scale(1.05)'; this.style.transition='all 0.2s ease';" onmouseout="this.style.backgroundColor='black'; this.style.transform='scale(1)';">
+                   Cancel
+                </a>
+
+            </form>
+        </div>
+      </main>
+           <!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+    </div>
+</footer>
+</body>
+
+</html>

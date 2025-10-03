@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — Mayondo Wood & Furniture</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+</head>
+
+<body>
+  
+    <div>
+        <br><br>
+        <h1 style="text-align: center; color: #643310;">Welcome to Mayondo Wood and Furniture(MWF)Ltd!</h1>
+        <br><br>
+
+        <div class="login-container">
+            <div class="login-box">
+                <h1>Welcome Back</h1>
+                <p>Log in to Mayondo Wood & Furniture</p>
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                    {% if 'error' in message.tags %}
+                    <p class="text-red-500">{{ message }}</p>
+                    {% else %}
+                    <p class="text-green-500">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+                {% endif %}
+                <form action="{% url 'loginPage' %}" method="POST">
+                    {% csrf_token %}
+                    <label for="identifier">Username or Email</label>
+                    <input type="text" id="identifier" name="identifier" placeholder="Enter your username or email" required>
+
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                    <input type="hidden" name="role" value="{{ role }}">
+                    <button type="submit" class="btn">Login</button>
+                </form>
+
+                <div class="options">
+                    <p>Don’t have an account? <a href="/register">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+    </div>
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stocks Report</title>
+    <link rel="stylesheet" href="{% static "css/sales.css" %}">
+  </head>
+  <body>
+    <nav>
+      <div class="logo" style="display: flex; align-items: center">
+        <img
+          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
+          alt="Logo"
+          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0;"
+        />
+        Mayondo Wood & Furniture
+      </div>
+      <ul class="navbar">
+        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
+        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
+        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
+        <li><a href="/">Logout</a></li>
+      </ul>
+    </nav>
+    <main style="flex:1; padding:10px 20px 20px 20px; width:100%;">
+
+    <div style="margin-top: 100px">
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 40px;
+          margin-bottom: -10px;
+        "
+      >
+        <h1 class="stocks-title text-[#643310]" style="margin: 0; padding-left: 20px">
+          <bold>Stocks</bold>
+        </h1>
+        <a href="{% url 'recordStocks' %}" class="add-stock-btn">+ Add Stock</a>
+      </div>
+      <div class="table-responsive">
+        <br />
+        <bold><hr /></bold>
+
+        <table class="table table-bordered table-hover w-full align-middle">
+          <thead class="table-dark text-center">
+            <tr class="align-middle">
+              <th>#</th>
+              <th>Product</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Category</th>
+              <th>Color</th>
+              <th>Cost Price</th>
+              <th>Selling Price</th>
+              <th>Supplier</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for stock in all_stocks %}
+            <tr>
+              <td>{{ stock.id }}</td>
+              <td>{{ stock.name }}</td>
+              <td>{{ stock.type }}</td>
+              <td>{{ stock.quantity }}</td>
+              <td>{{ stock.category }}</td>
+              <td>{{ stock.color }}</td>
+              <td>{{ stock.cost_price }}</td>
+              <td>{{ stock.selling_price }}</td>
+              <td>{{ stock.supplier }}</td>
+              <td>{{ stock.date_added }}</td>
+
+              <td class="actions">
+                <button
+                  onclick="window.location.href='{% url 'viewStocks' stock.id %}';"
+                  style="
+                    background: #1976d2;
+                    color: #fff;
+                    border: none;
+                    padding: 0.3rem 0.2rem;
+                    border-radius: 4px;
+                    margin-right: 0.5rem;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                  "
+                >
+                  View
+                </button>
+                <button
+                  onclick="window.location.href='{% url 'editStocks' stock.id %}';"
+                  style="
+                    background: #388e3c;
+                    color: #fff;
+                    border: none;
+                    padding: 0.3rem 0.4rem;
+                    border-radius: 4px;
+                    margin-right: 0.5rem;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                  "
+                >
+                  Edit
+                </button>
+                <button
+                  onclick="window.location.href='{% url 'deleteStocks' stock.id %}';"
+                  style="
+                    background: #d32f2f;
+                    color: #fff;
+                    border: none;
+                    padding: 0.3rem 0.3rem;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                  "
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+       <!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+    </div>
+</footer>
+  </body>
+</html>

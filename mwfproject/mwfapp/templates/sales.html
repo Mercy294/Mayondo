@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Report</title>
+    <link rel="stylesheet" href="{% static "css/sales.css" %}">
+  </head>
+  <body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
+    <nav>
+      <div class="logo" style="display: flex; align-items: center">
+        <img
+          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
+          alt="Logo"
+          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0;"
+        />
+        Mayondo Wood & Furniture
+      </div>
+      <ul class="navbar">
+        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
+        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
+        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
+        <li><a href="/">Logout</a></li>
+      </ul>
+    </nav>
+    <main style="flex: 1; padding-top: 10px; padding-left: 20px; padding-right: 20px;">
+    <div>
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 100px;
+          margin-bottom: -10px;
+        "
+      >
+        <h1 class="stocks-title text-[#643310]" style="margin: 0; padding-left: 20px">
+          <bold>Sales</bold>
+        </h1>
+        <a href="{% url 'recordSales' %}" class="add-stock-btn">+ Add Sale</a>
+      </div>
+      <div class="table-responsive">
+        <br />
+        <bold><hr /></bold>
+
+        <table class="table table-bordered table-hover w-50 align-middle">
+          <thead class="table-dark text-center">
+            <tr class="align-middle">
+              <th class="text-center p-3 px-3 py-2">#</th>
+              <th class="text-center p-3 px-3 py-2">Product</th>
+              <th class="text-center p-3 px-3 py-2">Quantity</th>
+              <th class="text-center p-3 px-3 py-2">Price</th>
+              <th class="text-center p-3 px-3 py-2">Transport(5%)</th>
+              <th class="text-center p-3 px-3 py-2">Total Price</th>
+              <th class="text-center p-3 px-3 py-2">Customer</th>
+              <th class="text-center p-3 px-3 py-2">Date</th>
+              <th class="text-center p-3 px-3 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sale in all_sales %}
+            <tr
+              class="align-middle hover:bg-white transition-colors duration-300"
+            >
+              <td class="text-center p-3 px-3 py-1">{{ sale.id }}</td>
+              <td class="text-center p-3 px-3 py-1">{{ sale.stock_item.name }}</td>
+              <td class="text-center p-3 px-3 py-1">
+                {{ sale.quantity_sold }}
+              </td>
+              <td class="text-center p-3 px-3 py-1">{{ sale.sale_price }}</td>
+              <td class="text-center p-3 px-3 py-1">
+                {{ sale.transport|floatformat:2 }}
+              </td>
+              <td class="text-center p-3 px-3 py-1">
+                {{ sale.total_price| floatformat:2 }}
+              </td>
+              <td class="text-center p-3 px-3 py-1">
+                {{ sale.customer_name }}
+              </td>
+              <td class="text-center p-3 px-3 py-1">{{ sale.date }}</td>
+              <td class="actions text-center p-3 px-3 py-1">
+                <button
+                  onclick="window.location.href='{% url 'viewSales' sale.id %}';"
+                  style="
+                    background: #1976d2;
+                    color: #fff;
+                    border: none;
+                    padding: 0.3rem 0.5rem;
+                    border-radius: 4px;
+                    margin-right: 0.5rem;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                  "
+                >
+                  View
+                </button>
+                <button
+                  onclick="window.location.href='{% url 'editSales' sale.id %}';"
+                  style="
+                    background: #388e3c;
+                    color: #fff;
+                    border: none;
+                    padding: 0.3rem 0.5rem;
+                    border-radius: 4px;
+                    margin-right: 0.5rem;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                  "
+                >
+                  Edit
+                </button>
+                <button
+                  onclick="window.location.href='{% url 'deleteSales' sale.id %}';"
+                  style="
+                    background: #d32f2f;
+                    color: #fff;
+                    border: none;
+                    padding: 0.3rem 0.5rem;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                  "
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            {% empty %}
+
+            <tr>
+              <td colspan="9" class="text-center">No sales records found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+    </div>
+       <!-- Footer -->
+        <footer class="footer" style="background-color: black; color: white; text-align: center; padding: 15px 0; border-top: 1px solid #643310; width: 100%;">
+          <div class="footer-content">
+            <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+          </div>
+        </footer>
+  </body>
+</html>

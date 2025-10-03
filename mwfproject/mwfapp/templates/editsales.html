@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Sale</title>
+    <link rel="stylesheet" href="{% static 'css/edit.css' %}">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo" style="display: flex; align-items: center;">
+            <img src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}" 
+                 alt="Logo" 
+                 style="height: 60px; width: 60px; margin-right: 10px; background: #643310;" />
+            Mayondo Wood & Furniture
+        </div>
+        <ul class="navbar">
+            <li><a href="{% url 'dashboardPage' %}">Home</a></li>
+            <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
+            <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main -->
+        <div class="form-container">
+            <h1>Edit Sales</h1>
+
+            <form action="{% url 'editSales' sale.id %}" method="POST">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <label for="stock_item">Product:</label>
+                    <select id="stock_item" name="stock_item" class="border border-gray-300 p-2 rounded" required>
+                    {% for stock in all_stocks %}
+                    <option value="{{ stock.id }}" {% if stock.id == sale.stock_item.id %}selected{% endif %}>
+                            {{ stock.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    {% comment %} <input type="text" id="name" name="name" value="{{ sale.product }}"
+                        required> {% endcomment %}
+                </div>
+
+                <div class="form-row">
+                    <label for="quantity_sold">Quantity:</label>
+                    <input type="number" id="quantity_sold" name="quantity_sold" value="{{ sale.quantity_sold }}" min="0"
+                        required>
+                </div>
+
+                <div class="form-row">
+                    <label for="sale_price">Price (UGX):</label>
+                    <input type="number" id="sale_price" name="sale_price" value="{{ sale.sale_price }}" min="0"
+                        required>
+                </div>
+
+                <div class="form-row">
+                    <label for="customer_name">Customer Name:</label>
+                    <input id="customer_name" name="customer_name" value="{{ sale.customer_name }}"
+                        required>
+                        
+                </div>
+                                 <!-- Payment Method -->
+                <div class="form-row">
+                    <label for="payment_method">Payment Method</label>
+                    <input type="text" id="payment_method" name="payment_method" value="{{ sale.payment_method }}">
+                </div>
+
+                <!-- Transport Option -->
+                <div class="form-row" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 10px;">
+    <label for="transport" style="margin: 0;">Transport</label>
+    <input type="checkbox" id="transport" name="transport" value="yes" {% if sale.transport > 0 %}checked{% endif %}>
+</div>
+
+
+
+
+
+                <div class="form-row">
+                    <label for="date">Date Added:</label>
+                    <input type="date" id="date" name="date" value="{{ sale.date|date:'Y-m-d' }}">
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+    <button type="submit" class="btn">Save Changes</button>
+</div>
+            </form>
+        </div>
+    </main>
+    <!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        
+    </div>
+</footer>
+</body>
+
+</html>
