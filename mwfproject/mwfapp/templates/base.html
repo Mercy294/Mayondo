@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mayondo Wood & Furniture{% endblock %}</title>
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body class="overflow-x-hidden" style="min-height: 100vh;">
+
+    <!-- Navbar -->
+    <nav class="bg-[#643310] shadow-md fixed top-0 left-0 w-full z-50">
+  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center">
+      <img
+        src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
+        alt="Mayondo Logo"
+        class="h-16 w-16 rounded-full border-2 border-white shadow-md object-cover mr-3"
+      />
+      <span class="font-bold text-xl text-white">
+        Mayondo Wood & Furniture
+      </span>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="pt-24 flex" style="min-height: calc(100vh - 96px);">
+       
+        <!-- Sidebar -->
+        <aside class="w-[260px] mt-0 bg-[rgba(251,247,241,0.85)] fixed top-20 left-0 overflow-y-auto" style="height: calc(100vh - 96px);">
+            <div class="bg-white text-lg space-y-2 pb-10 pt-10 shadow-lg p-4" style="min-height: 100%;">
+                <!-- Manager Links -->
+                {% if user.role == "MANAGER" %}
+                <a href="{% url 'dashboardPage' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">dashboard</span> Home
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                <a href="{% url 'recordStocks' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">inventory_2</span> Add Stock
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                <a href="{% url 'stocksPage' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">bar_chart</span> Stocks
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                <a href="{% url 'stocks_report' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">assessment</span> Stocks Report
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                <a href="{% url 'registerPage' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">person_add</span> Add Staff
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                <a href="{% url 'usersPage' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">groups</span> Staff
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+                {% endif %}
+
+                <!-- All Users Links -->
+                <a href="{% url 'recordSales' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">point_of_sale</span> Record Sale
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                <a href="{% url 'salesPage' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">bar_chart</span> Sales
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                <a href="{% url 'sales_report' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">assessment</span> Sales Report
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+
+                {% comment %} <!-- Admin Only -->
+                {% if user.role == "ADMIN" %}
+                <a href="/admin/" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">admin_panel_settings</span> Admin Panel
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+                {% endif %} {% endcomment %}
+
+                <!-- Logout -->
+                <a href="{% url 'logoutPage' %}" class="flex items-center justify-between text-gray-600 hover:text-indigo-800 py-2 px-2 rounded transition-all duration-300 hover:translate-x-1 group">
+                    <div class="flex items-center">
+                        <span class="material-icons-outlined mr-2">power_settings_new</span> Log out
+                    </div>
+                    <span class="material-icons-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-300">keyboard_arrow_right</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-[200px] p-6 bg-[var(--cream)]" style="min-height: calc(100vh - 96px);">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white text-[#643310] text-center py-4 mt-6">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+    </footer>
+</body>
+</html>

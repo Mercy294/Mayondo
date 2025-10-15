@@ -1,54 +1,63 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete User</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete User — Mayondo Wood & Furniture</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <nav>
-      <div class="logo" style="display: flex; align-items: center">
-        <img
-          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
-          alt="Logo"
-          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0;"
-        />
+<body class="bg-[#f8f5f2] min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+     <nav class="bg-[#643310] shadow-md fixed top-0 left-0 w-full z-50">
+  <div class="container mx-auto px-2 py-3 flex items-center justify-between">
+    <div class="flex items-center">
+      <img
+        src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
+        alt="Mayondo Logo"
+        class="h-16 w-16 rounded-full border-2 border-white shadow-md object-cover mr-3"
+      />
+      <span class="font-bold text-xl text-white">
         Mayondo Wood & Furniture
-      </div>
-      <ul class="navbar">
-        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
-        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
-        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
-        <li><a href="/">Logout</a></li>
-      </ul>
-    </nav>
-    <div class="flex flex-col gap-2 mx-auto max-w-[500] p-4 shadow-lg">
-        
-        <h2>Confirm Delete</h2>
-        <p>Are you sure you want to delete the  user {{ user.name }} ?</p>
-
-
-        <div class="flex gap-2">
-            <form action="{% url 'usersPage' %}" method="post">
-                {% csrf_token %}
-
-                <button class=" px-2 py-1 bg-red-500 text-white rounded" type="submit">Yes, delete</button>
-                
-            </form>
-            <a href="{% url 'usersPage' %}" class="px-2 py-1 bg-black text-white rounded">Cancel</a>
-        </div>
-
+      </span>
     </div>
-    <!-- Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
-        
+  </div>
+</nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center px-4 py-10">
+    <div class="bg-white rounded-xl shadow-lg p-8 max-w-lg w-full text-center">
+      <h1 class="text-2xl font-bold text-[#643310] mb-4">Confirm Delete</h1>
+      <p class="text-gray-700 text-lg mb-8">
+        Are you sure you want to delete 
+        <strong class="text-[#643310]">{{ user.get_full_name }}</strong>?
+      </p>
+
+      <form action="{% url 'deleteUser' user.id %}" method="post" class="flex justify-center gap-4">
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-md transition-all transform hover:scale-105"
+        >
+          Yes, Delete
+        </button>
+        <a
+          href="{% url 'usersPage' %}"
+          class="bg-gray-700 hover:bg-gray-800 text-white font-semibold px-6 py-2 rounded-md transition-all transform hover:scale-105"
+        >
+          Cancel
+        </a>
+      </form>
     </div>
-</footer>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-[#643310] bg-white py-4 text-center">
+    <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+  </footer>
+
 </body>
-
 </html>

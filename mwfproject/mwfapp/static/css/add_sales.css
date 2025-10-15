@@ -1,6 +1,7 @@
 :root {
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
   --radius: 18px;
+  --cream: #f5f1e7;
 }
 * {
   box-sizing: border-box;

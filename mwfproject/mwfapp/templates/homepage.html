@@ -8,15 +8,15 @@
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<main>
-<body>
-        <header class="w-full py-4 bg-[#fbf7f1] flex justify-center">
-    <img
-      src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
-      alt="Logo"
-      class="h-40 w-40"
-    />
 
+<body>
+    <main>
+        <header class="w-full py-4 bg-[#fbf7f1] flex justify-center">
+  <img
+    src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
+    alt="Logo"
+    class="h-40 w-40 rounded-full border-4 border-[#643310] shadow-lg"
+  />
 </header>
     
     <!-- Hero section -->
@@ -27,27 +27,37 @@
                     <h1 class="text-[#643310] font-bold text-5xl leading-tight mb-6">Welcome To Mayondo Wood and Furniture.</h1>
                     <p class="text-black text-xl mb-8">Crafting quality furniture from the finest wood, designed to bring comfort and elegance to your home and office.
                        </p>
-                    <a href="/register"
-                        href="#" id="openModalBtn"
-                        class="px-6 py-3 bg-[#643310] text-white font-bold rounded-full transition duration-200 pop-hover">Login</a>
+                <button
+   id="openModalBtn"
+   class="px-6 py-2 bg-[#643310] text-white font-bold rounded-full shadow-lg transition transform duration-300 hover:scale-110 hover:shadow-xl">
+   Get Started
+                </button>
+
+
                 </div>
                 <div class="md:w-1/2">
-                    <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1600&auto=format&fit=crop" alt="Coffee beans"
+                    <img src="https://i.pinimg.com/1200x/ab/f9/b8/abf9b8faa5be1797b0044f2b43160045.jpg" alt="Coffee beans"
                         class="w-80 h-80 rounded-lg shadow-lg">
                 </div>
             </div>
         </div>
     </section>
-</div>
+
 <!-- Modal Popup -->
 <div id="popupModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
     <div id="modalContent" class="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full text-center transform scale-75 opacity-0 transition-all duration-300">
-        <h2 class="text-2xl font-bold mb-4 text-[#643310]">Login</h2>
+        <h2 class="text-2xl font-bold mb-4 text-[#643310] transition-transform duration-300 hover:scale-105">Login</h2>
         <p class="mb-6">Welcome! Please log in to continue.</p>
         <button id="continueLoginBtn"
-            class="px-4 py-2 bg-[#643310] text-white rounded hover:bg-orange-700 transition">Continue to Login</button>
-        <button id="closeModalBtn"
-            class="ml-2 px-4 py-2 bg-gray-300 text-[#643310] rounded hover:bg-gray-400 transition">Cancel</button>
+        class="px-4 py-2 bg-[#643310] text-white rounded shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl">
+        Continue to Login
+</button>
+
+<button id="closeModalBtn"
+        class="ml-2 px-4 py-2 bg-gray-300 text-[#643310] rounded shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl">
+        Cancel
+</button>
+
     </div>
 </div>
 </main>
@@ -71,15 +81,15 @@
         modalContent.classList.add('scale-75', 'opacity-0');
     };
     continueBtn.onclick = () => {
-        window.location.href = '/register';
+        window.location.href = '/login';
     };
 </script>
 
 
 <!-- Footer -->
 <footer class="footer">
-    <div class="footer-content" style="background-color: black; color: #fff; padding: 15px 0; text-align: center; font-size: 14px; border-top: 1px solid #643310; margin-top: 0px;">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+    <div class="footer-content" style="background-color: white; color: #643310; padding: 15px 0; text-align: center; font-size: 18px; margin-top: 0px;">
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved. Desgned by Mercy.</p>
         
     </div>
 </footer>

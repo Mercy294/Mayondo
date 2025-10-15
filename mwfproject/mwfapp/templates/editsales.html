@@ -1,103 +1,69 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Sale</title>
-    <link rel="stylesheet" href="{% static 'css/edit.css' %}">
-</head>
+{% block content %}
+<!-- Main content area (matches dashboard layout) -->
+<main class="ml-[100px] p-6 bg-[var(--cream)] min-h-screen">
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md">
+    <h1 class="text-2xl text-[#643310] font-bold mb-6">Edit Sale</h1>
 
-<body>
-    <!-- Navbar -->
-    <nav>
-        <div class="logo" style="display: flex; align-items: center;">
-            <img src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}" 
-                 alt="Logo" 
-                 style="height: 60px; width: 60px; margin-right: 10px; background: #643310;" />
-            Mayondo Wood & Furniture
-        </div>
-        <ul class="navbar">
-            <li><a href="{% url 'dashboardPage' %}">Home</a></li>
-            <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
-            <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
-            <li><a href="/">Logout</a></li>
-        </ul>
-    </nav>
+    <form action="{% url 'editSales' sale.id %}" method="POST" class="space-y-4">
+      {% csrf_token %}
 
-    <!-- Main -->
-        <div class="form-container">
-            <h1>Edit Sales</h1>
+      <!-- Product -->
+      <div>
+        <label for="stock_item" class="block font-semibold mb-1">Product:</label>
+        <select id="stock_item" name="stock_item" class="w-full text-lg border rounded p-2" required>
+          {% for stock in all_stocks %}
+            <option value="{{ stock.id }}" {% if stock.id == sale.stock_item.id %}selected{% endif %}>
+              {{ stock.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
 
-            <form action="{% url 'editSales' sale.id %}" method="POST">
-                {% csrf_token %}
+      <!-- Quantity -->
+      <div>
+        <label for="quantity_sold" class="block font-semibold mb-1">Quantity:</label>
+        <input type="number" id="quantity_sold" name="quantity_sold" value="{{ sale.quantity_sold }}" min="0" required class="w-full text-lg border rounded p-2">
+      </div>
 
-                <div class="form-row">
-                    <label for="stock_item">Product:</label>
-                    <select id="stock_item" name="stock_item" class="border border-gray-300 p-2 rounded" required>
-                    {% for stock in all_stocks %}
-                    <option value="{{ stock.id }}" {% if stock.id == sale.stock_item.id %}selected{% endif %}>
-                            {{ stock.name }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                    {% comment %} <input type="text" id="name" name="name" value="{{ sale.product }}"
-                        required> {% endcomment %}
-                </div>
+      <!-- Price -->
+      <div>
+        <label for="sale_price" class="block font-semibold mb-1">Price (UGX):</label>
+        <input type="number" id="sale_price" name="sale_price" value="{{ sale.sale_price }}" min="0" required class="w-full text-lg border rounded p-2">
+      </div>
 
-                <div class="form-row">
-                    <label for="quantity_sold">Quantity:</label>
-                    <input type="number" id="quantity_sold" name="quantity_sold" value="{{ sale.quantity_sold }}" min="0"
-                        required>
-                </div>
+      <!-- Customer Name -->
+      <div>
+        <label for="customer_name" class="block font-semibold mb-1">Customer Name:</label>
+        <input type="text" id="customer_name" name="customer_name" value="{{ sale.customer_name }}" required class="w-full text-lg border rounded p-2">
+      </div>
 
-                <div class="form-row">
-                    <label for="sale_price">Price (UGX):</label>
-                    <input type="number" id="sale_price" name="sale_price" value="{{ sale.sale_price }}" min="0"
-                        required>
-                </div>
+      <!-- Payment Method -->
+      <div>
+        <label for="payment_method" class="block font-semibold mb-1">Payment Method:</label>
+        <input type="text" id="payment_method" name="payment_method" value="{{ sale.payment_method }}" class="w-full text-lg border rounded p-2">
+      </div>
 
-                <div class="form-row">
-                    <label for="customer_name">Customer Name:</label>
-                    <input id="customer_name" name="customer_name" value="{{ sale.customer_name }}"
-                        required>
-                        
-                </div>
-                                 <!-- Payment Method -->
-                <div class="form-row">
-                    <label for="payment_method">Payment Method</label>
-                    <input type="text" id="payment_method" name="payment_method" value="{{ sale.payment_method }}">
-                </div>
+      <!-- Transport -->
+      <div class="flex items-center gap-2">
+        <input type="checkbox" id="transport" name="transport" value="yes" {% if sale.transport > 0 %}checked{% endif %} class="h-4 text-lg w-4">
+        <label for="transport" class="font-semibold">Transport</label>
+      </div>
 
-                <!-- Transport Option -->
-                <div class="form-row" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 10px;">
-    <label for="transport" style="margin: 0;">Transport</label>
-    <input type="checkbox" id="transport" name="transport" value="yes" {% if sale.transport > 0 %}checked{% endif %}>
-</div>
+      <!-- Date -->
+      <div>
+        <label for="date" class="block text-lg font-semibold mb-1">Date Added:</label>
+        <input type="date" id="date" name="date" value="{{ sale.date|date:'Y-m-d' }}" class="w-full border rounded p-2">
+      </div>
 
-
-
-
-
-                <div class="form-row">
-                    <label for="date">Date Added:</label>
-                    <input type="date" id="date" name="date" value="{{ sale.date|date:'Y-m-d' }}">
-                </div>
-
-                <div style="text-align: center; margin-top: 20px;">
-    <button type="submit" class="btn">Save Changes</button>
-</div>
-            </form>
-        </div>
-    </main>
-    <!-- Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
-        
-    </div>
-</footer>
-</body>
-
-</html>
+      <!-- Buttons -->
+      <div class="text-center mt-6">
+        <button type="submit" class="bg-[#643310] text-white font-bold text-lg px-6 py-2 rounded">Save Changes</button>
+        <a href="{% url 'salesPage' %}" class="ml-4 px-8 py-3 text-lg bg-gray-700 text-white font-bold rounded">Cancel</a>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

@@ -1,72 +1,105 @@
-
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users</title>
-    <link rel="stylesheet" href="{% static 'css/stocks.css' %}">
-</head>
-<body>
-  <nav>
-      <div class="logo" style="display: flex; align-items: center">
-        <img
-          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
-          alt="Logo"
-          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0;"
-        />
-        Mayondo Wood & Furniture
+{% load humanize %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="flex">
+  <!-- Sidebar (fixed) -->
+ 
+
+  <!-- Main Content -->
+  <div class="ml-10 flex-1 p-6">
+    <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-3">
+      <h1 class="text-2xl font-bold text-[#643310] mb-6 text-center">Users</h1>
+
+      <!-- Search and Add User -->
+      <div class="flex justify-between items-center mb-4">
+        <input type="text" id="usersSearch" placeholder="Search..."
+               class="border border-[#643310] rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring-2 focus:ring-[#643310] focus:border-[#643310]" />
+        <a href="{% url 'registerPage' %}"
+           class="bg-[#643310] text-white px-4 py-2 rounded-md hover:bg-[#4a260c] transition">
+          + Add User
+        </a>
       </div>
-      <ul class="navbar">
-        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
-        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
-        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
-        <li><a href="/">Logout</a></li>
-      </ul>
-    </nav>
-    <h1>Users</h1>
-    <table>
-        <thead>
+
+      <!-- Users Table -->
+      <div class="overflow-x-auto p-2">
+        <table class="min-w-full px-2 p-1 border-collapse border border-gray-200">
+          <thead class="bg-[#643310] text-lg font-bold text-white">
             <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
+              <th class="px-2 py-1 text-left">Name</th>
+              <th class="px-2 py-1 text-left">Email</th>
+              <th class="px-2 py-1 text-left">Phone</th>
+              <th class="px-2 py-1 text-left">Role</th>
+              <th class="px-2 py-1 text-center">Actions</th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {% for user in users %}
-            <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.role }}</td>
-                <td class="actions text-center p-3 px-3 py-1 ">
-                <a
-                  href="{% url 'viewUser' user.id %}"
-                  class="text-xs text-blue-500"
-                  >View</a
-                >
-                <a
-                  href="{% url 'editUser' user.id %}"
-                  class="text-xs text-green-500"
-                  >Edit</a
-                >
-                <a
-                  href="{% url 'deleteUser' user.id %}"
-                  class="text-xs text-red-500"
-                  >Delete</a
-                >
+            <tr class="border-b text-lg hover:bg-[#f9ece5]">
+              <td class="px-2 py-2">{{ user.first_name }} {{ user.last_name }}</td>
+              <td class="px-2 py-2">{{ user.email }}</td>
+              <td class="px-2 py-2">{{ user.phone }}</td>
+              <td class="px-2 py-2">
+                {% with user.role|lower|cut:"_" as role_clean %}
+                  {{ role_clean|title }}
+                {% endwith %}
+              </td>
+              <td class="px-2 py-2 text-center space-x-1">
+                <button onclick="window.location.href='{% url 'editUser' user.id %}'"
+                        class="text-black px-2 py-1 rounded text-sm hover:bg-gray-300">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="window.location.href='{% url 'deleteUser' user.id %}'"
+                        class="text-black px-2 py-1 rounded text-sm hover:bg-gray-300">
+                  <i class="fas fa-trash"></i>
+                </button>
               </td>
             </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="text-center py-4">No users found.</td>
+            </tr>
             {% endfor %}
-        </tbody>
-    </table>
-       <!-- Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
-        
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-end mt-4 space-x-2">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}"
+             class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">&laquo; Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <span class="px-3 py-1 bg-gray-500 text-white rounded">{{ num }}</span>
+          {% else %}
+            <a href="?page={{ num }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}"
+             class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next &raquo;</a>
+        {% endif %}
+      </div>
     </div>
-</footer>
-</body>
-</html>
+  </div>
+</div>
+
+<script>
+const searchInput = document.getElementById('usersSearch');
+const tableRows = document.querySelectorAll('table tbody tr');
+
+searchInput.addEventListener('input', function() {
+  const filter = searchInput.value.toLowerCase();
+  tableRows.forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+  });
+});
+</script>
+{% endblock %}

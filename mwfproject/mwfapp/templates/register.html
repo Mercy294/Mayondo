@@ -1,4 +1,4 @@
-{% load static %}
+{% comment %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +28,6 @@
 
                 <label for="role">Role</label>
     <select id="role" name="role" required>
-        <option value="ADMIN">Admin</option>
         <option value="MANAGER">Manager</option>
         <option value="SALES_AGENT">Sales Agent</option>
     </select>
@@ -63,10 +62,10 @@
    <!-- Footer -->
 <footer class="footer">
     <div class="footer-content">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
+        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved. Designed by Mercy.</p>
         
     </div>
 </footer>
 </body>
 
-</html>
+</html> {% endcomment %}

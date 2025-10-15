@@ -1,58 +1,36 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Stock — Mayondo Wood & Furniture</title>
-  <link rel="stylesheet" href="{% static 'css/edit.css' %}">
-</head>
-<body>
-  <!-- Navbar -->
-  <nav>
-    <div class="logo" style="display: flex; align-items: center">
-      <img
-        src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
-        alt="Logo"
-        style="background: #643310; height: 60px; width: 60px; margin-right: 10px;"
-      />
-      Mayondo Wood & Furniture
-    </div>
-    <ul class="navbar">
-      <li><a href="{% url 'dashboardPage' %}">Home</a></li>
-      <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
-      <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
-      <li><a href="/">Logout</a></li>
-    </ul>
-  </nav>
 
-  <!-- Main -->
-  <div class="form-container">
-    <h1>Edit Stock</h1>
-    <form action="{% url 'editStocks' stock.id %}" method="POST">
+{% block content %}
+<!-- Main content area (matches Add User page) -->
+<main class="ml-[100px] p-6 bg-[var(--cream)] min-h-screen">
+  <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+    <h1 class="text-2xl text-[#643310] font-bold mb-6">Edit Stock</h1>
+
+    <form action="{% url 'editStocks' stock.id %}" method="POST" class="space-y-4">
       {% csrf_token %}
-      
-      <div class="form-row">
-        <label for="name">Product:</label>
-        <input type="text" id="name" name="name" value="{{ stock.name }}" required>
+
+      <div>
+        <label for="name" class="block text-lg font-semibold mb-1">Product:</label>
+        <input type="text" id="name" name="name" value="{{ stock.name }}" required class="w-full text-lg border rounded p-2">
       </div>
 
-      <div class="form-row">
-        <label for="type">Type:</label>
-        <select id="type" name="type" required>
+      <div>
+        <label for="type" class="block text-lg font-semibold mb-1">Type:</label>
+        <select id="type" name="type" required class="w-full text-lg border rounded p-2">
           <option value="Raw Material" {% if stock.type == "Raw Material" %}selected{% endif %}>Raw Material</option>
           <option value="Finished Product" {% if stock.type == "Finished Product" %}selected{% endif %}>Finished Product</option>
         </select>
       </div>
 
-      <div class="form-row">
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" value="{{ stock.quantity }}" min="0" required>
+      <div>
+        <label for="quantity" class="block text-lg font-semibold mb-1">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="{{ stock.quantity }}" min="0" required class="w-full text-lg border rounded p-2">
       </div>
 
-      <div class="form-row">
-        <label for="category">Category:</label>
-        <select id="category" name="category" required>
+      <div>
+        <label for="category" class="block text-lg font-semibold mb-1">Category:</label>
+        <select id="category" name="category" required class="w-full text-lg border rounded p-2">
           <option value="Poles" {% if stock.category == "Poles" %}selected{% endif %}>Poles</option>
           <option value="Hardwood" {% if stock.category == "Hardwood" %}selected{% endif %}>Hardwood</option>
           <option value="Home Furniture" {% if stock.category == "Home Furniture" %}selected{% endif %}>Home Furniture</option>
@@ -63,42 +41,36 @@
         </select>
       </div>
 
-      <div class="form-row">
-        <label for="color">Color:</label>
-        <input type="text" id="color" name="color" value="{{ stock.color }}">
+      <div>
+        <label for="color" class="block text-lg font-semibold mb-1">Color:</label>
+        <input type="text" id="color" name="color" value="{{ stock.color }}" class="w-full text-lg border rounded p-2">
       </div>
 
-      <div class="form-row">
-        <label for="supplier">Supplier:</label>
-        <input type="text" id="supplier" name="supplier" value="{{ stock.supplier }}">
+      <div>
+        <label for="supplier" class="block text-lg font-semibold mb-1">Supplier:</label>
+        <input type="text" id="supplier" name="supplier" value="{{ stock.supplier }}" class="w-full text-lg border rounded p-2">
       </div>
 
-      <div class="form-row">
-        <label for="cost_price">Cost Price (UGX):</label>
-        <input type="number" id="cost_price" name="cost_price" value="{{ stock.cost_price }}" min="0" required>
+      <div>
+        <label for="cost_price" class="block text-lg font-semibold mb-1">Cost Price (UGX):</label>
+        <input type="number" id="cost_price" name="cost_price" value="{{ stock.cost_price }}" min="0" required class="w-full text-lg border rounded p-2">
       </div>
 
-      <div class="form-row">
-        <label for="selling_price">Selling Price (UGX):</label>
-        <input type="number" id="selling_price" name="selling_price" value="{{ stock.selling_price }}" min="0" required>
+      <div>
+        <label for="selling_price" class="block text-lg font-semibold mb-1">Selling Price (UGX):</label>
+        <input type="number" id="selling_price" name="selling_price" value="{{ stock.selling_price }}" min="0" required class="w-full text-lg border rounded p-2">
       </div>
 
-      <div class="form-row">
-        <label for="date">Date Added:</label>
-        <input type="date" id="date" name="date" value="{{ stock.date_added|date:'Y-m-d' }}">
+      <div>
+        <label for="date" class="block text-lg font-semibold mb-1">Date Added:</label>
+        <input type="date" id="date" name="date" value="{{ stock.date_added|date:'Y-m-d' }}" class="w-full text-lg border rounded p-2">
       </div>
 
-               <div style="text-align: center; margin-top: 20px;">
-    <button type="submit" class="btn">Save Changes</button>
-</div>
+      <div class="text-center mt-6">
+        <button type="submit" class="bg-[#643310] mr-5 text-lg text-white font-bold px-4 py-2 rounded">Save Changes</button>
+        <a href="{% url 'stocksPage' %}" class="px-10 py-3 bg-gray-700 text-lg text-white rounded">Back</a>
+      </div>
+    </form>
   </div>
-  <!-- Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
-        
-    </div>
-</footer>
-
-</body>
-</html>
+</main>
+{% endblock %}

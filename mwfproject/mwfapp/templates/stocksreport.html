@@ -1,90 +1,84 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stocks Report</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[var(--cream)] min-h-screen">
+{% extends "base.html" %}
+{% load humanize %}
 
-  <!-- Header -->
-  
-    <!-- Navbar -->
-  <nav class="bg-[#643310] shadow-md">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-      
-      <!-- Logo -->
-      <div class="flex items-center">
-        <img src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}" alt="Logo" class="h-10 w-10 mr-2">
-        <span class="font-bold text-xl text-white">Mayondo Wood & Furniture</span>
-      </div>
-      
-      <!-- Navigation Links -->
-      <div class="space-x-4">
-        <a href="{% url 'dashboardPage' %}" class="text-white hover:text-[#c7a564]">Dashboard</a>
-        <a href="{% url 'salesPage' %}" class="text-white hover:text-[#c7a564]">Sales</a>
-        <a href="{% url 'stocksPage' %}" class="text-white hover:[#c7a564]">Stocks</a>
-        <a href="{% url 'usersPage' %}" class="text-white hover:text-[#c7a564]">Users</a>
-        <a href="{% url 'logoutPage' %}" class="text-white hover:text-[#c7a564]">Logout</a>
-      </div>
-    </div>
-  </nav>
-    
-  <br>
-<h1 class="text-2xl font-bold">Stocks Report</h1>
-  <!-- Page Content -->
-  <main class="max-w-6xl mx-auto p-6">
-    <!-- Summary Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div class="mt-4">
-  <p class="font-bold">Total Items in Stock: {{ all_stocks|length }}</p>
-  <p class="font-bold">Total Stock Value: 
-    {{ total_value }}
-  </p>
+{% block title %}Stocks Report{% endblock %}
+
+{% block content %}
+
+<!-- Search + Add Stock -->
+ <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-12">
+  <h1 class="text-3xl font-bold mb-6 text-[#643310]">Stocks Report</h1>
+
+<div class="flex justify-end items-center mb-4 gap-3">
+  <input type="text" id="stockSearch" placeholder="Search..."
+         class="border-2 border-[#643310] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#643310] focus:border-[#643310] shadow-sm w-64">
+  <a href="{% url 'recordStocks' %}" class="bg-[#643310] text-white px-4 py-2 rounded-lg hover:bg-[#50250f]">
+    + Add Stock
+  </a>
 </div>
-    </div>
 
-    <!-- Sales Table -->
-    <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-xl font-bold mb-4">Detailed Stocks</h2>
-      <table class="w-full border-collapse">
-        <thead>
-          <tr class="bg-gray-200 text-left">
-            <th class="py-2 px-4 text-left">Item</th>
-            <th class="py-2 px-4 text-left">Category</th>
-            <th class="py-2 px-4 text-left">Quantity</th>
-            <th class="py-2 px-4 text-left">Cost Price</th>
-            <th class="py-2 px-4 text-left">Selling Price</th>
-            <th class="py-2 px-4 text-left">Supplier</th>
-            <th class="py-2 px-4 text-left">Date Added</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for stock in all_stocks %}
-          <tr class="border-b hover:bg-gray-50">
-            <td class="py-2 px-4">{{ stock.name }}</td>
-            <td class="py-2 px-4">{{ stock.category }}</td>
-            <td class="py-2 px-4">{{ stock.quantity }}</td>
-            <td class="py-2 px-4">{{ stock.cost_price }}</td>
-            <td class="py-2 px-4">{{ stock.selling_price }}</td>
-            <td class="py-2 px-4">{{ stock.supplier }}</td>
-            <td class="py-2 px-4">{{ stock.date_added }}</td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="4" class="p-4 text-center text-gray-500">No stock items found</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </main>
+<!-- Stocks Table -->
+<div class="bg-white rounded-lg shadow p-6 overflow-x-auto">
+  <table class="w-full border-collapse">
+    <thead class="font-bold text-xl">
+      <tr class="bg-gray-200 text-left font-bold">
+        <th class="py-2 px-4">Item</th>
+        <th class="py-2 px-4">Category</th>
+        <th class="py-2 px-4">Quantity</th>
+        <th class="py-2 px-4">Cost Price</th>
+        <th class="py-2 px-4">Selling Price</th>
+        <th class="py-2 px-2">Supplier</th>
+        <th class="py-2 px-4">Date Added</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for stock in page_obj %}
+      <tr class="border-b text-lg hover:bg-[#f9ece5]">
+        <td class="py-2 px-4">{{ stock.name }}</td>
+        <td class="py-2 px-4">{{ stock.category }}</td>
+        <td class="py-2 px-8">{{ stock.quantity }}</td>
+        <td class="py-2 px-4">{{ stock.cost_price|intcomma }}</td>
+        <td class="py-2 px-3">{{ stock.selling_price|intcomma }}</td>
+        <td class="py-2 px-4">{{ stock.supplier }}</td>
+        <td class="py-2 px-4">{{ stock.date_added }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="7" class="p-4 text-center text-gray-500">No stock items found</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
-  <!-- Footer -->
-  <footer class="bg-black text-white text-center py-4 mt-8">
-    <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
-  </footer>
-</body>
-</html>
+<!-- Pagination -->
+<div class="mt-4 flex justify-end space-x-2">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">&laquo; Previous</a>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+      <span class="px-3 py-1 bg-gray-500 text-white rounded">{{ num }}</span>
+    {% else %}
+      <a href="?page={{ num }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next &raquo;</a>
+  {% endif %}
+</div>
+
+<script>
+const stockSearch = document.getElementById('stockSearch');
+const stockRows = document.querySelectorAll('table tbody tr');
+
+stockSearch.addEventListener('input', function() {
+  const filter = stockSearch.value.toLowerCase();
+  stockRows.forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+  });
+});
+</script>
+{% endblock %}

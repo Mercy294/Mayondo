@@ -1,130 +1,121 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Product — Mayondo Wood & Furniture</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="{% static 'css/add_sales.css' %}" />
-  </head>
+{% block title %}Record Sales{% endblock %}
 
-  <body class="flex flex-col min-h-screen">
-      <nav>
-      <div class="logo" style="display: flex; align-items: center">
-        <img
-          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
-          alt="Logo"
-          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0;"
-        />
-        Mayondo Wood & Furniture
-      </div>
-      <ul class="navbar">
-        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
-        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
-        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
-        <li><a href="/">Logout</a></li>
-      </ul>
-    </nav>
-
-    <main class="flex-grow">
-      <div class="form-container">
-        <h1>Record Sales</h1>
-        <h2>Welcome, {{ user.username }}!</h2>
-        <p>Record sales and manage inventory</p>
-
-        <form
-          method="POST"
-          action="{% url 'recordSales' %}"
-          id="addProductForm"
-        >
-          {% csrf_token %}
-          <div class="form-row">
-            <label for="stock_item">Product:</label>
-            <select name="stock_item" id="stock_item" required>
-              <option value="">-- Select a Product --</option>
-              {% for stock in all_stocks %}
-                <option value="{{ stock.id }}">
-                  {{ stock.name }}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <div class="form-row">
-            <label for="quantity_sold">Quantity:</label>
-            <input
-              type="number"
-              name="quantity_sold"
-              min="0"
-              id="quantity_sold"
-              placeholder="e.g. 10"
-              required
-            />
-          </div>
-
-          <div class="form-row">
-            <label for="price">Sale Price (UGX):</label>
-            <input
-              type="number"
-              name="sale_price"
-              id="price"
-              placeholder="e.g. 350000"
-              min="0"
-              required
-            />
-          </div>
-
-            <label><strong>
-              Transport (5%):
-              <input type="checkbox" name="transport" value="yes"></strong>
-              
-            </label>
-
-          <div class="form-row">
-            <label>Total Price:</label>
-            <input type="number" min="0" id="total_price" readonly />
-          </div>
-
-          <div class="form-row">
-            <label for="customer_name">Customer:</label>
-            <input
-              type="text"
-              name="customer_name"
-              id="customer_name"
-              placeholder="e.g. Martha" required
-            />
-          </div>
-
-          <div class="form-row">
-            <label for="date">Date:</label>
-            <input type="date" name="date" id="date" required />
-          </div>
-
-          <div class="form-row">
-            <label for="payment_method">Payment Method:</label>
-            <select id="payment_method" name="payment_method" required>
-              <option value="">Select Method</option>
-              <option value="Cash">Cash</option>
-              <option value="Mobile Money">Mobile Money</option>
-              <option value="Bank Transfer">Bank Transfer</option>
-            </select>
-          </div>
-
-          <button type="submit" class="btn hover:transition-">Add Product</button>
-        </form>
-      </div>
-    </main>
-      <!-- Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
-        
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+  <h2 class="text-2xl font-bold text-[#643310] mb-6 text-center">Record Sales</h2>
+    <!-- Messages -->
+  {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+        <div class="p-3 mb-2 rounded 
+                    {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-400
+                    {% elif message.tags == 'success' %}bg-green-100 text-green-700 border border-green-400
+                    {% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
     </div>
-</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  
-  </body>
-</html>
+  {% endif %}
+
+
+  <form method="POST" action="{% url 'recordSales' %}" class="space-y-4" id="addProductForm">
+    {% csrf_token %}
+
+    <!-- Product -->
+    <div>
+      <label for="stock_item" class="block text-lg font-medium text-gray-700">Product</label>
+      <select id="stock_item" name="stock_item" required
+        class="mt-1 w-full border rounded-md px-3 py-2">
+        <option value="">-- Select a Product --</option>
+        {% for stock in all_stocks %}
+          <option value="{{ stock.id }}">{{ stock.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Quantity -->
+    <div>
+      <label for="quantity_sold" class="block text-lg font-medium text-gray-700">Quantity</label>
+      <input type="number" id="quantity_sold" name="quantity_sold" min="0" required
+             class="mt-1 w-full border rounded-md px-3 py-2" placeholder="e.g. 10">
+    </div>
+
+    <!-- Sale Price -->
+    <div>
+      <label for="price" class="block text-lg font-medium text-gray-700">Sale Price (UGX)</label>
+      <input type="number" id="price" name="sale_price" min="0" required
+             class="mt-1 w-full border rounded-md px-3 py-2" placeholder="e.g. 350000">
+    </div>
+
+    <!-- Transport -->
+    <div class="flex items-center">
+      <input type="checkbox" id="transport" name="transport" value="yes"
+             class="h-4 w-4 text-[#643310] border-gray-300 rounded">
+      <label for="transport" class="ml-2 text-lg font-bold text-gray-700">Transport (5%)</label>
+    </div>
+
+    <!-- Total Price -->
+    <div>
+      <label for="total_price" class="block text-lg font-medium text-gray-700">Total Price</label>
+      <input type="number" id="total_price" readonly
+             class="mt-1 w-full border rounded-md px-3 py-2 bg-gray-100">
+    </div>
+
+    <!-- Customer -->
+    <div>
+      <label for="customer_name" class="block text-lg font-medium text-gray-700">Customer</label>
+      <input type="text" id="customer_name" name="customer_name" required
+             class="mt-1 w-full border rounded-md px-3 py-2" placeholder="e.g. Martha">
+    </div>
+
+    <!-- Date -->
+    <div>
+      <label for="date" class="block text-lg font-medium text-gray-700">Date</label>
+      <input type="date" id="date" name="date" required min="{% now 'Y-m-d'|date_add:'-1 days' %}"
+       max="{% now 'Y-m-d' %}"
+             class="mt-1 w-full border rounded-md px-3 py-2">
+    </div>
+
+    <!-- Payment Method -->
+    <div>
+      <label for="payment_method" class="block text-lg font-medium text-gray-700">Payment Method</label>
+      <select id="payment_method" name="payment_method" required
+              class="mt-1 w-full border rounded-md px-3 py-2">
+        <option value="">Select Method</option>
+        <option value="Cash">Cash</option>
+        <option value="Mobile Money">Mobile Money</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+      </select>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit"
+            class="w-full bg-[#643310] text-white py-2 rounded-md font-bold text-lg hover:bg-[#4a260c] transition">
+      Save Sale
+    </button>
+  </form>
+</div>
+<script>
+  const dateInput = document.getElementById('date');
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  function formatDate(d) {
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
+  dateInput.min = formatDate(yesterday);
+  dateInput.max = formatDate(today);
+  dateInput.value = formatDate(today); // optional default value
+</script>
+{% endblock %}

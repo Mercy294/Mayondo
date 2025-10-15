@@ -1,140 +1,119 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stocks Report</title>
-    <link rel="stylesheet" href="{% static "css/sales.css" %}">
-  </head>
-  <body>
-    <nav>
-      <div class="logo" style="display: flex; align-items: center">
-        <img
-          src="{% static 'images/31aba08d3d8042b4b39e196bc3523d95.jpg' %}"
-          alt="Logo"
-          style="background: #643310; height: 60px; width: 60px; margin-right: 10px; padding-left: 0;"
-        />
-        Mayondo Wood & Furniture
-      </div>
-      <ul class="navbar">
-        <li><a href="{% url 'dashboardPage' %}">Home</a></li>
-        <li><a href="{% url 'recordSales' %}">Record Sales</a></li>
-        <li><a href="{% url 'recordStocks' %}">Record Stocks</a></li>
-        <li><a href="/">Logout</a></li>
-      </ul>
-    </nav>
-    <main style="flex:1; padding:10px 20px 20px 20px; width:100%;">
+{% load humanize %}
 
-    <div style="margin-top: 100px">
-      <div
-        style="
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 40px;
-          margin-bottom: -10px;
-        "
-      >
-        <h1 class="stocks-title text-[#643310]" style="margin: 0; padding-left: 20px">
-          <bold>Stocks</bold>
-        </h1>
-        <a href="{% url 'recordStocks' %}" class="add-stock-btn">+ Add Stock</a>
-      </div>
-      <div class="table-responsive">
-        <br />
-        <bold><hr /></bold>
+{% block title %}Stocks{% endblock %}
 
-        <table class="table table-bordered table-hover w-full align-middle">
-          <thead class="table-dark text-center">
-            <tr class="align-middle">
-              <th>#</th>
-              <th>Product</th>
-              <th>Type</th>
-              <th>Quantity</th>
-              <th>Category</th>
-              <th>Color</th>
-              <th>Cost Price</th>
-              <th>Selling Price</th>
-              <th>Supplier</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for stock in all_stocks %}
-            <tr>
-              <td>{{ stock.id }}</td>
-              <td>{{ stock.name }}</td>
-              <td>{{ stock.type }}</td>
-              <td>{{ stock.quantity }}</td>
-              <td>{{ stock.category }}</td>
-              <td>{{ stock.color }}</td>
-              <td>{{ stock.cost_price }}</td>
-              <td>{{ stock.selling_price }}</td>
-              <td>{{ stock.supplier }}</td>
-              <td>{{ stock.date_added }}</td>
-
-              <td class="actions">
-                <button
-                  onclick="window.location.href='{% url 'viewStocks' stock.id %}';"
-                  style="
-                    background: #1976d2;
-                    color: #fff;
-                    border: none;
-                    padding: 0.3rem 0.2rem;
-                    border-radius: 4px;
-                    margin-right: 0.5rem;
-                    cursor: pointer;
-                    font-size: 0.9em;
-                  "
-                >
-                  View
-                </button>
-                <button
-                  onclick="window.location.href='{% url 'editStocks' stock.id %}';"
-                  style="
-                    background: #388e3c;
-                    color: #fff;
-                    border: none;
-                    padding: 0.3rem 0.4rem;
-                    border-radius: 4px;
-                    margin-right: 0.5rem;
-                    cursor: pointer;
-                    font-size: 0.9em;
-                  "
-                >
-                  Edit
-                </button>
-                <button
-                  onclick="window.location.href='{% url 'deleteStocks' stock.id %}';"
-                  style="
-                    background: #d32f2f;
-                    color: #fff;
-                    border: none;
-                    padding: 0.3rem 0.3rem;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 0.9em;
-                  "
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-6">
+  <h1 class="text-3xl font-bold text-[#643310] mb-6">Stocks</h1>
+ <!-- Messages -->
+  {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+        <div class="p-3 mb-2 rounded 
+                    {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-400
+                    {% elif message.tags == 'success' %}bg-green-100 text-green-700 border border-green-400
+                    {% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
     </div>
-  </main>
-       <!-- Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <p>&copy; {% now "Y" %} Mayondo Wood & Furniture. All rights reserved.</p>
-        
-    </div>
-</footer>
-  </body>
-</html>
+  {% endif %}
+  <!-- Search & Add Stock -->
+  <div class="flex justify-end gap-3 pl-4 items-center mb-4">
+    <input type="text" id="salesSearch" placeholder="Search..."
+           class="border border-[#643310] rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring-2 focus:ring-[#643310] focus:border-[#643310]" />
+    <a href="{% url 'recordStocks' %}"
+       class="bg-[#643310] text-white px-4 py-2 rounded-md hover:bg-[#4a260c] transition">
+      + Add Stock
+    </a>
+  </div>
+
+  <!-- Stocks Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full px-2 p-1 border-collapse border border-gray-200">
+      <thead class="bg-[#643310] text-bold text-lg text-white">
+        <tr>
+          <th class="px-2 py-1 text-left">Product</th>
+          <th class="px-2 py-1 text-left">Type</th>
+          <th class="px-1 py-1 text-left">Quantity</th>
+          <th class="px-1 py-1 text-left">Category</th>
+          <th class="px-2 py-1 text-left">Color</th>
+          <th class="px-2 py-1 text-left">Cost Price</th>
+          <th class="px-2 py-1 text-left">Selling Price</th>
+          <th class="px-2 py-1 text-left">Supplier</th>
+          <th class="px-2 py-1 text-left">Date</th>
+          <th class="px-2 py-1 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in page_obj %}
+        <tr class="border-b text-lg hover:bg-[#f9ece5]">
+          <td class="px-2 py-2">{{ stock.name }}</td>
+          <td class="px-1 py-2">{{ stock.type }}</td>
+          <td class="px-6 py-2">{{ stock.quantity }}</td>
+          <td class="px-1 py-1">{{ stock.category }}</td>
+          <td class="px-2 py-2">{{ stock.color }}</td>
+          <td class="px-1 py-2">{{ stock.cost_price|intcomma }}</td>
+          <td class="px-2 py-2">{{ stock.selling_price|intcomma }}</td>
+          <td class="px-2 py-2">{{ stock.supplier }}</td>
+          <td class="px-2 py-2">{{ stock.date_added }}</td>
+          <td class="px-1 py-1 text-center space-x-1">
+            <button onclick="window.location.href='{% url 'viewStocks' stock.id %}'"
+                    class="text-black px-2 py-1 rounded hover:bg-gray-300">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button onclick="window.location.href='{% url 'editStocks' stock.id %}'"
+                    class="text-black px-2 py-1 rounded hover:bg-gray-300">
+              <i class="fas fa-edit"></i>
+            </button>
+            {% comment %} <button onclick="window.location.href='{% url 'deleteStocks' stock.id %}'"
+                    class="text-black px-2 py-1 rounded hover:bg-gray-300">
+              <i class="fas fa-edit"></i>
+            </button> {% endcomment %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="10" class="text-center py-4">No stock records found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex justify-end mt-4 space-x-2">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}"
+         class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">&laquo; Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="px-3 py-1 bg-gray-500 text-white rounded">{{ num }}</span>
+      {% else %}
+        <a href="?page={{ num }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}"
+         class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next &raquo;</a>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  const searchInput = document.getElementById('salesSearch');
+  const tableRows = document.querySelectorAll('table tbody tr');
+
+  searchInput.addEventListener('input', function() {
+    const filter = searchInput.value.toLowerCase();
+    tableRows.forEach(row => {
+      row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+    });
+  });
+</script>
+{% endblock %}

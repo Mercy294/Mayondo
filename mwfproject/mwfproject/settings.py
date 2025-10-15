@@ -31,13 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'mwfapp',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.humanize",
+    "mwfapp",
 ]
 
 MIDDLEWARE = [
@@ -130,4 +131,3 @@ AUTHENTICATION_BACKENDS = [
     'mwfapp.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend',  # fallback
 ]
-
