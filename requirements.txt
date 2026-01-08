@@ -18,6 +18,7 @@ fabio==2024.9.0
 filelock==3.19.1
 fonttools==4.60.0
 greenlet==3.2.4
+gunicorn==23.0.0
 h5py==3.14.0
 hdf5plugin==5.1.0
 iniconfig==2.3.0
