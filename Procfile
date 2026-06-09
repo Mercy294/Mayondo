@@ -1,1 +1,1 @@
-web: gunicorn mwfproject.wsgi
+web: gunicorn mwfproject.wsgi:application
